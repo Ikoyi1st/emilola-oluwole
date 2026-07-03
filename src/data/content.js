@@ -22,7 +22,7 @@ export const ORDER_OF_SERVICE = [
   "Opening Prayer",
   "Bible Reading — Gen. 2:18–25",
   "Joining (Exchange of Vows)",
-  "Hymn — My Hope Is Built on Nothing Else",
+  "Hymn — My Hope Is Built on Nothing Less",
   "Sermon and Prayer for the Couple",
   "Signing of the Marriage Register",
   "Blessing of the Couple",
