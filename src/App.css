@@ -1,0 +1,84 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500;1,600&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Poppins:wght@400;500;600&display=swap');
+
+:root{
+  --lilac:#ecd9f6;
+  --pink:#f6dced;
+  --orb-purple:#d9a6e8;
+  --orb-pink:#f0c2e2;
+  --card-dark-1:#1c1120;
+  --card-dark-2:#2c1830;
+  --accent:#e0188f;
+  --accent-soft:#f2a9d6;
+  --cream:#fbf6f8;
+  --ink:#2b1a28;
+  --muted:#7a6774;
+  --gold:#d8b978;
+}
+
+*{ box-sizing:border-box; }
+html,body,#root{ margin:0; padding:0; height:100%; }
+
+body{
+  min-height:100vh;
+  width:100%;
+  background:linear-gradient(160deg,var(--lilac) 0%,var(--pink) 55%,#f7e3ee 100%);
+  font-family:'Cormorant Garamond',serif;
+  color:var(--ink);
+  overflow-x:hidden;
+}
+
+.app{
+  min-height:100vh;
+  width:100%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  position:relative;
+}
+
+.orb{
+  position:fixed;
+  border-radius:50%;
+  filter:blur(60px);
+  opacity:.5;
+  pointer-events:none;
+  animation:drift 14s ease-in-out infinite;
+  z-index:0;
+}
+.orb-1{ width:340px; height:340px; top:-80px; right:-100px; background:var(--orb-purple); }
+.orb-2{ width:300px; height:300px; bottom:5%; left:-120px; background:var(--orb-pink); animation-delay:-6s; }
+.orb-3{ width:220px; height:220px; top:45%; right:-80px; background:var(--orb-purple); animation-delay:-3s; opacity:.35; }
+
+@keyframes drift{
+  0%,100%{ transform:translate(0,0); }
+  50%{ transform:translate(14px,-24px); }
+}
+
+.stage{
+  position:relative;
+  z-index:1;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:22px;
+  padding:34px 16px 26px;
+  width:100%;
+}
+
+.stage-eyebrow{
+  font-family:'Poppins',sans-serif;
+  font-size:11px;
+  letter-spacing:5px;
+  text-transform:uppercase;
+  color:var(--accent);
+  text-align:center;
+}
+.stage-title{
+  font-family:'Playfair Display',serif;
+  font-style:italic;
+  font-weight:500;
+  font-size:clamp(22px,4vw,30px);
+  margin:2px 0 0;
+  text-align:center;
+}
+.stage-title .amp{ color:var(--accent); }
