@@ -8,9 +8,18 @@ const easeOutCubic = (t) => 1 - Math.pow(1 - t, 3);
 // on the left; pages from `current` onward rest, unturned, on the right.
 function staticStyle(index, current, total) {
   if (index < current) {
+    // Turned pages: zIndex 0..total-1. Kept well below every resting
+    // page's range (see below) so a flipped, invisible page can never
+    // sit on top of — and swallow scroll/tap gestures meant for — the
+    // page currently facing the reader.
     return { angle: -180, zIndex: index };
   }
-  return { angle: 0, zIndex: total - index };
+  // Resting (not-yet-turned) pages: zIndex total..2*total, decreasing
+  // with index so the front-most one (index === current) is always the
+  // highest of this group. Its minimum possible value (total+1) is still
+  // above the maximum possible turned-page value (total-1), so the two
+  // groups never overlap no matter how far into the book `current` is.
+  return { angle: 0, zIndex: total * 2 - index };
 }
 
 export default function FlipBook({ pages }) {
@@ -75,7 +84,7 @@ export default function FlipBook({ pages }) {
 
   const finishForward = useCallback(
     (index, from) => {
-      setPageAngle(index, from, total + 10);
+      setPageAngle(index, from, total * 2 + 10);
       animate(index, from, -180, () => setCurrent((c) => Math.max(c, index + 1)));
     },
     [animate, setPageAngle, total]
@@ -83,7 +92,7 @@ export default function FlipBook({ pages }) {
 
   const abortForward = useCallback(
     (index, from) => {
-      setPageAngle(index, from, total + 10);
+      setPageAngle(index, from, total * 2 + 10);
       animate(index, from, 0, () => applyStatic(index, current));
     },
     [animate, applyStatic, current, setPageAngle, total]
@@ -91,7 +100,7 @@ export default function FlipBook({ pages }) {
 
   const finishBackward = useCallback(
     (index, from) => {
-      setPageAngle(index, from, total + 10);
+      setPageAngle(index, from, total * 2 + 10);
       animate(index, from, 0, () => setCurrent((c) => Math.min(c, index)));
     },
     [animate, setPageAngle, total]
@@ -99,7 +108,7 @@ export default function FlipBook({ pages }) {
 
   const abortBackward = useCallback(
     (index, from) => {
-      setPageAngle(index, from, total + 10);
+      setPageAngle(index, from, total * 2 + 10);
       animate(index, from, -180, () => applyStatic(index, current));
     },
     [animate, applyStatic, current, setPageAngle, total]
@@ -174,7 +183,7 @@ export default function FlipBook({ pages }) {
       }
       angle = Math.max(-180, Math.min(0, angle));
       d.angle = angle;
-      setPageAngle(d.index, angle, total + 10);
+      setPageAngle(d.index, angle, total * 2 + 10);
     },
     [setPageAngle, total]
   );

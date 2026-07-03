@@ -68,6 +68,7 @@
 
 .page-back{
   transform:rotateY(180deg);
+  pointer-events:none;
   background:
     radial-gradient(circle at 85% 15%, rgba(224,24,143,0.06), transparent 45%),
     linear-gradient(135deg,#f8f1f5 0%,#f1e4ec 100%);
