@@ -17,6 +17,7 @@ export function CoverPage() {
         <span className="cover-spark">✦</span>
         <div className="cover-pill">
           <span className="eyebrow">{COUPLE.occasion}</span>
+          <span className="eyebrow">{COUPLE.venue}</span>
           <span className="detail">{COUPLE.date}</span>
         </div>
         <div className="cover-hint">Drag the corner to open →</div>
