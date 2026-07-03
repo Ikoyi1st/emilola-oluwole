@@ -133,6 +133,30 @@ export default function FlipBook({ pages }) {
       const d = dragRef.current;
       if (!d) return;
       const dx = e.clientX - d.startX;
+      const dy = e.clientY - d.startY;
+
+      // Axis-lock: don't commit to a horizontal page-turn until the
+      // gesture has clearly moved more horizontally than vertically.
+      // This lets a vertical swipe that starts on the edge-grab strip
+      // (which overlaps the padded sides of scrollable page content)
+      // fall through to native scrolling instead of turning the page.
+      if (!d.axis) {
+        if (Math.abs(dx) < 6 && Math.abs(dy) < 6) return;
+        if (Math.abs(dy) > Math.abs(dx)) {
+          // Vertical intent — bail out of the page-turn gesture and let the
+          // browser handle it as a normal scroll. We just clear the drag
+          // state here; the pointerup handler (still attached) will do the
+          // actual listener cleanup once the gesture ends.
+          dragRef.current = null;
+          return;
+        }
+        d.axis = "horizontal";
+      }
+
+      // We've committed to a horizontal drag — stop the browser's native
+      // vertical pan for the rest of this gesture.
+      e.preventDefault();
+
       if (Math.abs(dx) > 4) d.moved = true;
 
       const now = performance.now();
@@ -186,6 +210,7 @@ export default function FlipBook({ pages }) {
         index,
         direction,
         startX: e.clientX,
+        startY: e.clientY,
         width: rect.width,
         lastX: e.clientX,
         lastT: performance.now(),
@@ -193,8 +218,11 @@ export default function FlipBook({ pages }) {
         velocity: 0,
         angle: direction === "forward" ? 0 : -180,
         moved: false,
+        axis: null,
       };
-      window.addEventListener("pointermove", onPointerMove);
+      // passive:false so we can preventDefault() once a gesture is
+      // confirmed horizontal, stopping the browser from also scrolling.
+      window.addEventListener("pointermove", onPointerMove, { passive: false });
       window.addEventListener("pointerup", onPointerUp);
     },
     [current, total, onPointerMove, onPointerUp]

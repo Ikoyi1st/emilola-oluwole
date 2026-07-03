@@ -108,7 +108,11 @@
   width:17%;
   z-index:50;
   cursor:grab;
-  touch-action:none;
+  /* allow native vertical scrolling to pass through this strip by default;
+     the drag handler only takes over (via preventDefault) once it detects
+     the gesture is actually horizontal, so swipes near the edge of a page's
+     content can still scroll that content on mobile. */
+  touch-action:pan-y;
 }
 .edge-grab-next{ right:0; }
 .edge-grab-prev{ left:0; }
