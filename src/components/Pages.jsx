@@ -16,7 +16,6 @@ export function CoverPage() {
         </h1>
         <span className="cover-spark">✦</span>
         <div className="cover-pill">
-          <span className="eyebrow">{COUPLE.occasion}</span>
           <span className="eyebrow">{COUPLE.venue}</span>
           <span className="detail">{COUPLE.date}</span>
         </div>
@@ -70,7 +69,7 @@ export function OrderPage() {
 export function HymnPage({ hymn }) {
   return (
     <div className="leaf">
-      <LeafHead eyebrow="Sung In Celebration" title="The Hymns" />
+      <LeafHead eyebrow="Song Of Celebration" title="The Hymns" />
       <div className="hymn-scroll">
         <span className="hymn-badge">{hymn.no}</span>
         <h3 className="hymn-title">{hymn.title}</h3>

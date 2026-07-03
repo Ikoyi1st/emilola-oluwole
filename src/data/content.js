@@ -1,8 +1,7 @@
 export const COUPLE = {
   names: ["Emilola", "Oluwole"],
   eyebrow: "Wedding Programme",
-  occasion: "Church",
-  venue: "RCCG, House of Triumph",
+  venue: "@ RCCG, House of Triumph",
   date: "Wednesday, 8th July 2026",
 };
 
